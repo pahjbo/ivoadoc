@@ -11,13 +11,20 @@
   <x:import href="vor2spec.xsl"/>
   <x:param name="docversion">0.1</x:param>
   <x:param name="pubstatus">WD</x:param>
+  <x:param name="target"/>
+
+  <x:param name="document-id">document-id</x:param>
+  
+  <x:param name="reloadbib"/>
+
+
   <x:character-map name="cm1">
   <!-- stop &amp; being translated -->
     <x:output-character character="&#38;" string="&amp;amp;amp;"/>
     <x:output-character character="&#160;" string="&amp;nbsp;"/>
     <!-- see http://www.w3.org/2003/entities/iso9573-2003/iso9573-2003map.xsl for more entity maps... -->
   </x:character-map>
-  <x:output method="xml" indent="yes" use-character-maps="cm1"
+  <x:output method="xml" indent="no" use-character-maps="cm1"
             encoding="ISO-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
             exclude-result-prefixes="saxon"
             />
@@ -70,13 +77,6 @@
        See <http://www.w3.org/TR/2008/WD-rdfa-syntax-20080221/#docconf>.
        We also add a GRDDL transformation which independently specifies
        the RDFa transformation. -->
-
-  <x:param name="target"/>
-
-  <x:param name="document-id">document-id</x:param>
-  
-  <x:param name="reloadbib"/>
-
 
 
   <!-- process root node -->
@@ -205,7 +205,7 @@
     </x:copy>
     <x:text>
     </x:text>
-  </x:template>
+ </x:template>
 
   <x:template match="processing-instruction('toc')">
   <x:processing-instruction name="toc"/>
@@ -278,7 +278,7 @@
        </x:otherwise>
     </x:choose>
     </x:variable>
-    [<a href='#{$ref}'><x:value-of select='$ref'/></a>]
+    <x:text>[</x:text><x:element name="a" namespace="http://www.w3.org/1999/xhtml"><x:attribute name="href" select='concat("#","$ref")'/><x:value-of select='$ref'/></x:element><x:text>]</x:text>
     </x:copy>
   </x:template>
 
@@ -405,15 +405,14 @@
 
   <x:template match="processing-instruction('incxml')">
       <x:copy/>
-        <x:analyze-string regex="href=['&quot;]([^'&quot;]+)['&quot;] +select=['&quot;]([^'&quot;]+)['&quot;]"  select=".">
+        <x:analyze-string regex="href=[&quot;]([^&quot;]+)[&quot;] +select=[&quot;]([^&quot;]+)[&quot;]"  select=".">
           <x:matching-substring>
                 <!-- crude ability to select an element & children - neets to be smartened up to more xpath like, but namespaces a problem -->
                    <x:message>Including only <x:value-of select="regex-group(2)"/> element xml from <x:value-of select="regex-group(1)"/> </x:message>
                    <x:apply-templates select="document(regex-group(1))//saxon:evaluate(regex-group(2))" mode="printxml"></x:apply-templates>
-                             
-          </x:matching-substring>
+           </x:matching-substring>
           <x:non-matching-substring>
-        <x:analyze-string regex="href=['&quot;]([^'&quot;]+)['&quot;]" select=".">
+        <x:analyze-string regex="href=[&quot;]([^&quot;]+)[&quot;]" select=".">
           <x:matching-substring>
           <x:message>Including xml from <x:value-of select="regex-group(1)"/></x:message>
             <x:apply-templates select="document(regex-group(1))" mode="printxml"></x:apply-templates>
@@ -421,8 +420,8 @@
         </x:analyze-string>
           </x:non-matching-substring>
         </x:analyze-string>
-        
   </x:template>
+  
   <x:template match="processing-instruction('schemadef')">
       <x:copy/>
       <x:message>schemadef <x:value-of select="."/></x:message>
@@ -475,6 +474,7 @@
   
   
   <x:template match="processing-instruction()" mode="printxml">
+<!--   <x:message>printxml: pi <x:value-of select="name(.)"/></x:message>-->
     <div class="indent pi">
       <x:text>&lt;?</x:text>
       <x:value-of select="name(.)"/>
@@ -485,23 +485,14 @@
   </x:template>
   
   <x:template match="comment()"  mode="printxml">
-  <x:message>comment</x:message>
+  <!-- comment 
+  <x:message>printxml: comment</x:message>-->
     <div class="comment"><x:text>&lt;!--</x:text><x:value-of select="."/><x:text>--&gt;</x:text></div>
   </x:template>
 
-
-  <x:template match="*" mode="printxml" >
-  <x:message>all <x:value-of select="name(.)"/></x:message>
-    <div class="indent">
-      <span class="markup">&lt;</span>
-      <span class="start-tag"><x:value-of select="name(.)"/></span>
-      <x:apply-templates select="@*"  mode="printxml"/>
-      <span class="markup">/&gt;</span>
-    </div>
-  </x:template>
-
-<!-- this template causes ambiguity with the next one - seems harmless in saxon, but need to understand how to remove - cause of ambiguity is that there can be more than one child -->
-  <x:template match="*[text()]" mode="printxml">
+  <x:template match="*[every $x in node() satisfies $x[self::text()]]" mode="printxml">
+  <!-- just text in element (will also match empty element, so empty element template priority increased) 
+   <x:message>printxml:just with text <x:value-of select="name(.)"/></x:message>-->
     <div class="indent">
       <span class="markup">&lt;</span>
       <span class="start-tag"><x:value-of select="name(.)"/></span>
@@ -515,7 +506,9 @@
   </x:template>
 
 
- <x:template match="*[element()]" mode="printxml" >
+ <x:template match="*[element()|processing-instruction()]" mode="printxml" >
+ <!--  element with sub-elements 
+  <x:message>printxml: with elements <x:value-of select="name(.)"/></x:message>-->
           <div class="element">
           <span class="markup">&lt;</span><span class="start-tag"><x:value-of select="name(.)"/></span><x:apply-templates select="@*" mode="printxml"/><span class="markup">&gt;</span>
           <x:apply-templates select="child::node()"  mode="printxml"/>
@@ -523,6 +516,16 @@
           </div>
   </x:template>
 
+ <x:template match="*[not(node())]" mode="printxml" priority="5">
+ <!-- empty element 
+  <x:message>printxml:empty <x:value-of select="name(.)"/></x:message>-->
+    <div class="indent">
+      <span class="markup">&lt;</span>
+      <span class="start-tag"><x:value-of select="name(.)"/></span>
+      <x:apply-templates select="@*"  mode="printxml"/>
+      <span class="markup">/&gt;</span>
+    </div>
+  </x:template>
  
 
   <x:template match="@*"  mode="printxml">
