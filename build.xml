@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- note it is intended that this file be used in a directory above this distribution directory -->
-<project name="VOStandard" default="formatdoc">
+<project name="ivoapub" default="formatdoc">
 	<property name="filename" value="template"/> <!-- set this to the nickname of the document -->
      <property name="docversion" value="1.0"/>
      <property name="pubstatus" value="WD"/><!-- set to the status of the document WD, PR, REC, NOTE -->
@@ -39,7 +39,7 @@
 		        outfile="${filename}.pdf" messagelevel="DEBUG"   />
 	</target>
 	
-   <target name="regenerateRefs"> 
+   <target name="biblio"> 
       <xslt style="ivoadoc/extractcite.xslt" in="${filename}.html" out="${filename}.aux" force="true"  >
          <factory name="net.sf.saxon.TransformerFactoryImpl" />
          <param name="target" expression="aux"/>
