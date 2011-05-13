@@ -278,7 +278,7 @@
        </x:otherwise>
     </x:choose>
     </x:variable>
-    <x:text>[</x:text><x:element name="a" namespace="http://www.w3.org/1999/xhtml"><x:attribute name="href" select='concat("#","$ref")'/><x:value-of select='$ref'/></x:element><x:text>]</x:text>
+    <x:text>[</x:text><x:element name="a" namespace="http://www.w3.org/1999/xhtml"><x:attribute name="href" select='concat("#",$ref)'/><x:value-of select='$ref'/></x:element><x:text>]</x:text>
     </x:copy>
   </x:template>
 
