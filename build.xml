@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- note it is intended that this file be used in a directory above this distribution directory -->
 <project name="ivoapub" default="formatdoc">
-	<property name="filename" value="template"/> <!-- set this to the nickname of the document -->
+	<property name="filename" value="ivoapub"/> <!-- set this to the nickname of the document -->
      <property name="docversion" value="1.0"/>
-     <property name="pubstatus" value="WD"/><!-- set to the status of the document WD, PR, REC, NOTE -->
+     <property name="pubstatus" value="NOTE"/><!-- set to the status of the document WD, PR, REC, NOTE -->
      
      <!-- the location of latex/bibtex binaries -->
      <property name="latexlocation" location="/opt/local/bin"/>
@@ -55,6 +55,12 @@
          <env key="PATH" path="${env.PATH}:${latexlocation}"/>
          <arg   value="${filename}" />
         </exec>
+        <!-- get rid of some TeXisms  (really need to do the accented characters as well..better to run sed..)-->
+       <replaceregexp file="${filename}.bbl"
+               match="([^/])~"
+               replace="\1&amp;nbsp;"
+               flags="g"/>
+
         <echo>Now edit the references into the document from ${filename}.bbl</echo>
    </target>
 	
@@ -80,6 +86,7 @@
 	    </fileset>
 	    <fileset dir="${fop.home}/build">
 	      <include name="fop.jar"/>
+           <include name="fop-hyph.jar"/>
 	    </fileset>
 	  </classpath>
 	</taskdef>
