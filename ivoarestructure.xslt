@@ -211,7 +211,8 @@
   <x:processing-instruction name="toc"/>
     <div id='toc' class='toc'>
       <ul>
-        <x:apply-templates select="//h:div[@class='body']/h:div[@class='section' or @class='section-nonum']|//h:div[@class='body']/h:div[@class='appendices']/h:div" mode="make-toc"/>
+      <!-- select the top-level section DIVs wherever they are...-->
+         <x:apply-templates select="//h:div[@class='section' or @class='section-nonum'][count(ancestor::h:div[@class='section' or @class='section-nonum']) = 0]" mode="make-toc"/>
       </ul>
     </div>
    

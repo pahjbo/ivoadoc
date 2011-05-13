@@ -524,7 +524,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   
   <xsl:template name="make-bookmarks">
      <fo:bookmark-tree>
-        <xsl:apply-templates select="//html:div[@class='body']/html:div[@class='section' or @class='appendices' or @class='section-nonum']" mode="bookmark"/>
+        <xsl:apply-templates select="//html:div[@class='section' or @class='section-nonum'][count(ancestor::html:div[@class='section' or @class='section-nonum']) = 0]" mode="bookmark"/>
      </fo:bookmark-tree>
   </xsl:template>
   
