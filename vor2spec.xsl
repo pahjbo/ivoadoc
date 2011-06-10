@@ -423,6 +423,9 @@
                <xsl:when test="@base='xs:anyURI'">
                  <xsl:text>a URI</xsl:text>
                </xsl:when>
+               <xsl:when test="@base='xs:NCName'">
+                 <xsl:text>an XML name without a namespace prefix</xsl:text>
+               </xsl:when>
                <xsl:when test="@base='xs:integer'">
                  <xsl:text>an integer</xsl:text>
                </xsl:when>
