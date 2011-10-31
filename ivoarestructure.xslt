@@ -11,6 +11,8 @@
   <x:import href="vor2spec.xsl"/>
   <x:param name="docversion">0.1</x:param>
   <x:param name="pubstatus">WD</x:param>
+  <x:param name="ivoname">unnamed</x:param>
+  <x:param name="docdate">1970-01-01</x:param>
   <x:param name="target"/>
 
   <x:param name="document-id">document-id</x:param>
@@ -554,12 +556,12 @@
     <x:template match="xs:complexType[xs:simpleContent]" mode="content"/>
 
     <x:template match="xs:complexType" mode="content" xml:space="preserve">
-    	<x:if test=".//xs:element">
+      <x:if test=".//xs:element">
 <p>
 <table border="2" width="100%" id="d:{@name}">
 <colgroup>
-	<col width="20%"/>
-	<col width="80%"/>
+  <col width="20%"/>
+  <col width="80%"/>
 </colgroup>
 <thead>
   <tr><th colspan="2" align="left"><x:apply-templates select="." mode="MetadataTitle"/></th>
@@ -570,7 +572,7 @@
 </tbody>
 </table>
 </p>
-    	</x:if>
+      </x:if>
     </x:template>
 
     <x:template match="xs:simpleType" mode="content"/>
@@ -580,8 +582,8 @@
 <p>
 <table border="2" width="100%">
 <colgroup>
-	<col width="20%"/>
-	<col width="80%"/>
+  <col width="20%"/>
+  <col width="80%"/>
 </colgroup>
 <thead>
   <tr><th colspan="2" align="left"><x:apply-templates select="." mode="attributeTitle"/></th>
@@ -718,7 +720,7 @@
       <x:choose>
         <x:when test="xs:enumeration/xs:annotation/xs:documentation"
                   xml:space="preserve"><table border="0" width="100%">
-      	<colgroup><col width="20%"/><col width="80%"/></colgroup><tbody>
+        <colgroup><col width="20%"/><col width="80%"/></colgroup><tbody>
 <x:apply-templates select="xs:enumeration" mode="controlledVocab" />
               </tbody></table></x:when>
         <x:otherwise>
@@ -763,5 +765,131 @@
           <x:otherwise>#f5f5f5</x:otherwise>
        </x:choose>
     </x:template>    
- 
+
+    <!-- remove a publication date that may be present at the end of the 
+        current element's content (actually, we remove any number of
+        those) -->
+    <x:template name="removeTrailingDate">
+            <x:analyze-string
+                select="."
+                regex="{'( [0-9]{4}-[0-9]{2}-[0-9]{2})+$'}">
+                <x:non-matching-substring>
+                    <x:value-of select="."/>
+                </x:non-matching-substring>
+            </x:analyze-string>
+    </x:template>
+
+    <x:template name="appendDocDate">
+            <x:text> </x:text>
+            <x:value-of select="$docdate"/>
+    </x:template>
+
+    <x:template name="longDocClass">
+        <x:choose>
+            <x:when test="$pubstatus='WD'">
+                <x:text>IVOA Working Draft </x:text>
+            </x:when>
+            <x:when test="$pubstatus='PR'">
+                <x:text>IVOA Proposed Recommendation </x:text>
+            </x:when>
+            <x:when test="$pubstatus='REC'">
+                <x:text>IVOA Recommendation </x:text>
+            </x:when>
+            <x:when test="$pubstatus='NOTE'">
+                <x:text>IVOA Note </x:text>
+            </x:when>
+            <x:otherwise>
+                <x:message terminate='yes'>pubstatus must be one of
+                    WD, PR, REC, NOTE</x:message>
+            </x:otherwise>
+        </x:choose>
+    </x:template>
+
+    <x:template match="h:title">
+        <title>
+            <x:call-template name="removeTrailingDate"/>
+            <x:call-template name="appendDocDate"/>
+        </title>
+    </x:template>
+
+    <x:template match="h:h2[@class='subtitle']">
+        <h2 class="subtitle">
+            <x:call-template name="longDocClass"/>
+            <x:call-template name="appendDocDate"/>
+        </h2>
+    </x:template>
+
+    <!-- create a base name for the current document according to
+    SDP WG rules -->
+    <x:function name="vm:getBaseName">
+            <x:value-of select="$ivoname"/>
+            <x:text>-</x:text>
+            <x:value-of select="$pubstatus"/>
+            <x:text>-</x:text>
+            <x:value-of select="$docversion"/>
+            <x:if test="$pubstatus!='REC'">
+                <x:text>-</x:text>
+                <x:value-of select="replace($docdate, '-', '')"/>
+            </x:if>
+    </x:function>
+
+    <!-- make a link to the current version on the ivoa doc server -->
+    <x:template match="h:a[@class='currentlink']">
+        <x:variable name="currenturl">
+            <x:text>http://www.ivoa.net/Documents/</x:text>
+            <x:value-of select="vm:getBaseName()"/>
+            <x:text>.html</x:text>
+        </x:variable>
+        <x:element name="a">
+            <x:attribute name="class">currentlink</x:attribute>
+            <x:attribute name="href">
+                <x:value-of select="$currenturl"/>
+            </x:attribute>
+            <x:value-of select="$currenturl"/>
+        </x:element>
+    </x:template>
+
+    <x:template match="h:p[@id='statusdecl']">
+        <p id="statusdecl"><em>
+            <x:choose>
+                <x:when test="$pubstatus='NOTE'">
+                    This is an IVOA Note expressing suggestions from and
+                    opinions of the authors. It is intended to share best
+                    practices, possible approaches, or other perspectives on
+                    interoperability with the Virtual Observatory. It should
+                    not be referenced or otherwise interpreted as a standard
+                    specification.
+                </x:when>
+                <x:when test="$pubstatus='WD'">
+                    This is an IVOA Working Draft for review by IVOA members
+                    and other interested parties.  It is a draft document and
+                    may be updated, replaced, or obsoleted by other documents
+                    at any time. It is inappropriate to use IVOA Working Drafts
+                    as reference materials or to cite them as other than "work
+                    in progress".
+                </x:when>
+                <x:when test="$pubstatus='PR'">
+                    This is an IVOA Proposed Recommendation made available for
+                    public review. It is appropriate to reference this document
+                    only as a recommended standard that is under review and
+                    which may be changed before it is accepted as a full
+                </x:when>
+                <x:when test="$pubstatus='REC'">
+                    This document has been reviewed by IVOA Members and other
+                    interested parties, and has been endorsed by the IVOA
+                    Executive Committee as an IVOA Recommendation. It is a
+                    stable document and may be used as reference material or
+                    cited as a normative reference from another document.
+                    IVOA's role in making the Recommendation is to draw
+                    attention to the specification and to promote its
+                    widespread deployment. This enhances the functionality and
+                    interoperability inside the Astronomical Community.
+                </x:when>
+                <x:otherwise>
+                    <x:message terminate='yes'>pubstatus must be one of
+                        WD, PR, REC, NOTE</x:message>
+                </x:otherwise>
+            </x:choose>
+        </em></p>
+    </x:template>
 </x:stylesheet>
