@@ -393,6 +393,12 @@
            <xsl:text>string: </xsl:text>
            <code><xsl:value-of select="."/></code>
          </xsl:when>
+         <xsl:when test=".='xs:integer'">
+           <xsl:text>integer</xsl:text>
+         </xsl:when>
+         <xsl:when test=".='xs:NCName'">
+           <xsl:text>a prefixless XML name</xsl:text>
+         </xsl:when>
          <xsl:when test=".='xs:decimal' or .='xs:float' or .='xs:double'">
            <xsl:text>floating-point number: </xsl:text>
            <code><xsl:value-of select="."/></code>

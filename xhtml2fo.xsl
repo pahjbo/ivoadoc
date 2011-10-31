@@ -297,6 +297,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <xsl:attribute name="border-collapse">separate</xsl:attribute>
     <xsl:attribute name="border-spacing">2px</xsl:attribute>
     <xsl:attribute name="border">1px</xsl:attribute>
+    <xsl:attribute name="table-layout">fixed</xsl:attribute>
     <!--
     <xsl:attribute name="border-style">outset</xsl:attribute>
     -->

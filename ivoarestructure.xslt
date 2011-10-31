@@ -25,7 +25,7 @@
     <!-- see http://www.w3.org/2003/entities/iso9573-2003/iso9573-2003map.xsl for more entity maps... -->
   </x:character-map>
   <x:output method="xml" indent="no" use-character-maps="cm1"
-            encoding="ISO-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
+            encoding="ISO-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="ivoadoc/xmlcatalog/xhtml1-strict.dtd"
             exclude-result-prefixes="saxon"
             />
 
@@ -554,8 +554,13 @@
     <x:template match="xs:complexType[xs:simpleContent]" mode="content"/>
 
     <x:template match="xs:complexType" mode="content" xml:space="preserve">
+    	<x:if test=".//xs:element">
 <p>
 <table border="2" width="100%" id="d:{@name}">
+<colgroup>
+	<col width="20%"/>
+	<col width="80%"/>
+</colgroup>
 <thead>
   <tr><th colspan="2" align="left"><x:apply-templates select="." mode="MetadataTitle"/></th>
   </tr><tr><th>Element</th><th>Definition</th>
@@ -565,6 +570,7 @@
 </tbody>
 </table>
 </p>
+    	</x:if>
     </x:template>
 
     <x:template match="xs:simpleType" mode="content"/>
@@ -573,6 +579,10 @@
       <x:if test=".//xs:attribute" xml:space="preserve">
 <p>
 <table border="2" width="100%">
+<colgroup>
+	<col width="20%"/>
+	<col width="80%"/>
+</colgroup>
 <thead>
   <tr><th colspan="2" align="left"><x:apply-templates select="." mode="attributeTitle"/></th>
   </tr><tr><th>Attribute</th><th>Definition</th>
@@ -587,14 +597,16 @@
 
     <x:template match="xs:element" mode="content" xml:space="preserve">
   <tr><td valign="top"><x:value-of select="@name"/></td>
-      <td valign="top"><table border="0" width="100%"><tbody>
+      <td valign="top"><table border="0" width="100%">
+      <colgroup><col width="20%"/><col width="80%"/></colgroup><tbody>
 <x:apply-templates select="." mode="nextContentItem"/>      </tbody></table>
   </td></tr>
     </x:template>
 
     <x:template match="xs:attribute" mode="attributes" xml:space="preserve">
   <tr><td valign="top"><x:value-of select="@name"/></td>
-      <td valign="top"><table border="0" width="100%"><tbody>
+      <td valign="top"><table border="0" width="100%">
+      <colgroup><col width="20%"/><col width="80%"/></colgroup><tbody>
 <x:apply-templates select="." mode="nextContentItem"/>      </tbody></table>
   </td></tr>
     </x:template>
@@ -705,7 +717,8 @@
     <x:template match="xs:restriction[xs:enumeration]" mode="howtolist">
       <x:choose>
         <x:when test="xs:enumeration/xs:annotation/xs:documentation"
-                  xml:space="preserve"><table border="0" width="100%"><tbody>
+                  xml:space="preserve"><table border="0" width="100%">
+      	<colgroup><col width="20%"/><col width="80%"/></colgroup><tbody>
 <x:apply-templates select="xs:enumeration" mode="controlledVocab" />
               </tbody></table></x:when>
         <x:otherwise>
