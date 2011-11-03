@@ -820,7 +820,7 @@
     </x:template>
 
     <!-- create a base name for the current document according to
-    SDP WG rules -->
+    SDP WG rules; this is not currently used -->
     <x:function name="vm:getBaseName">
             <x:value-of select="$ivoname"/>
             <x:text>-</x:text>
@@ -828,7 +828,7 @@
             <x:text>-</x:text>
             <x:value-of select="$docversion"/>
             <x:if test="$pubstatus!='REC'">
-                <x:text>-</x:text>
+                <x:text>/</x:text>
                 <x:value-of select="replace($docdate, '-', '')"/>
             </x:if>
     </x:function>
@@ -837,8 +837,9 @@
     <x:template match="h:a[@class='currentlink']">
         <x:variable name="currenturl">
             <x:text>http://www.ivoa.net/Documents/</x:text>
-            <x:value-of select="vm:getBaseName()"/>
-            <x:text>.html</x:text>
+            <x:value-of select="$ivoname"/>
+            <x:text>/</x:text>
+            <x:value-of select="replace($docdate, '-', '')"/>
         </x:variable>
         <x:element name="a">
             <x:attribute name="class">currentlink</x:attribute>
