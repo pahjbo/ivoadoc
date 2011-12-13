@@ -470,7 +470,9 @@
              <x:text> </x:text><span class="attribute-name"><x:text>xmlns:</x:text><x:value-of select="."/></span><span class="markup">=</span><span class="attribute-value">"<x:value-of select="namespace-uri-for-prefix(., $v)"/>"</span>
           </x:for-each>
           <span class="markup">&gt;</span>
+          <div class="indent">
           <x:apply-templates select="child::node()"  mode="printxml"/>
+          </div>
           <span class="markup">&lt;/</span><span class="end-tag"><x:value-of select="name(.)"/></span><span class="markup">&gt;</span>
           </div>
   </x:template>
@@ -478,7 +480,7 @@
   
   <x:template match="processing-instruction()" mode="printxml">
 <!--   <x:message>printxml: pi <x:value-of select="name(.)"/></x:message>-->
-    <div class="indent pi">
+    <div class="pi">
       <x:text>&lt;?</x:text>
       <x:value-of select="name(.)"/>
       <x:text> </x:text>
@@ -496,7 +498,7 @@
   <x:template match="*[every $x in node() satisfies $x[self::text()]]" mode="printxml">
   <!-- just text in element (will also match empty element, so empty element template priority increased) 
    <x:message>printxml:just with text <x:value-of select="name(.)"/></x:message>-->
-    <div class="indent">
+    <div>
       <span class="markup">&lt;</span>
       <span class="start-tag"><x:value-of select="name(.)"/></span>
       <x:apply-templates select="@*"  mode="printxml"/>
@@ -514,7 +516,9 @@
   <x:message>printxml: with elements <x:value-of select="name(.)"/></x:message>-->
           <div class="element">
           <span class="markup">&lt;</span><span class="start-tag"><x:value-of select="name(.)"/></span><x:apply-templates select="@*" mode="printxml"/><span class="markup">&gt;</span>
+          <div class="indent">
           <x:apply-templates select="child::node()"  mode="printxml"/>
+          </div>
           <span class="markup">&lt;/</span><span class="end-tag"><x:value-of select="name(.)"/></span><span class="markup">&gt;</span>
           </div>
   </x:template>
@@ -522,7 +526,7 @@
  <x:template match="*[not(node())]" mode="printxml" priority="5">
  <!-- empty element 
   <x:message>printxml:empty <x:value-of select="name(.)"/></x:message>-->
-    <div class="indent">
+    <div>
       <span class="markup">&lt;</span>
       <span class="start-tag"><x:value-of select="name(.)"/></span>
       <x:apply-templates select="@*"  mode="printxml"/>
@@ -538,7 +542,7 @@
  
   <x:template match="text()"  mode="printxml">
     <x:if test="normalize-space(.)">
-      <div class="indent text"><x:value-of select="."/></div>
+      <div class="text"><x:value-of select="."/></div>
     </x:if>
   </x:template>
 

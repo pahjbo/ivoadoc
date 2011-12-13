@@ -11,7 +11,9 @@
 }
  .element {
 	position: relative;
-	padding-left: 2em;
+}
+.indent {
+	margin-left: 1em;
 }
 .start-tag {
 	color: #009999;
