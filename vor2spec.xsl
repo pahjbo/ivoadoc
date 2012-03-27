@@ -573,9 +573,7 @@
 
         <xsl:value-of select="$indent"/>
         <xsl:text>&lt;</xsl:text>
-        <xsl:value-of select="$xsdprefix"/>
-        <xsl:text>:</xsl:text>
-        <xsl:value-of select="local-name()"/>
+        <xsl:value-of select="concat($xsdprefix, ':', local-name())"/>
         <xsl:apply-templates select="." mode="formatAttrs">
            <xsl:with-param name="elindent" select="$indent"/>
         </xsl:apply-templates>
@@ -589,7 +587,7 @@
               </xsl:apply-templates>
               <xsl:value-of select="$indent"/>
               <xsl:text>&lt;/</xsl:text>
-              <xsl:value-of select="local-name()"/>
+              <xsl:value-of select="concat($xsdprefix, ':', local-name())"/>
               <xsl:text>&gt;</xsl:text>
            </xsl:when>
            <xsl:when test="*">
@@ -599,7 +597,7 @@
               <xsl:text>&gt;</xsl:text>
               <xsl:value-of select="text()"/>
               <xsl:text>&lt;/</xsl:text>
-              <xsl:value-of select="local-name()"/>
+              <xsl:value-of select="concat($xsdprefix, ':', local-name())"/>
               <xsl:text>&gt;</xsl:text>
            </xsl:when>
            <xsl:otherwise>

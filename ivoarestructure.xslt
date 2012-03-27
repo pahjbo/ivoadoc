@@ -462,7 +462,7 @@
    </x:template>
   
 <x:template match="/*" mode="printxml" priority="1"><!-- try to add the namespaces for the root element -->
-  <x:message>in root element <x:value-of select="name(.)"/></x:message>
+<!--  <x:message>in root element <x:value-of select="name(.)"/></x:message> -->
           <div class="element">
           <span class="markup">&lt;</span><span class="start-tag"><x:value-of select="name(.)"/></span><x:apply-templates select="@*" mode="printxml"/>
           <x:variable  name="v" select="."/> 
