@@ -1,35 +1,35 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0"?>
 <!-- $Id:$ 
 Note that this file should be xhtml with div to mark sections - see README for more information
 Paul Harrison -->
 <!DOCTYPE html
-  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "ivoadoc/xmlcatalog/xhtml1-transistional.dtd">
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "ivoadoc/xmlcatalog/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Template IVOA Document</title>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <meta name="Title" content="IVOA WG Internal Draft" />
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <meta name="author" content="Paul Harrison, paul.harrison@manchester.ac.uk" />
 <meta name="maintainedBy" content="Paul Harrison, paul.harrison@manchester.ac.uk" />
 <link href="http://www.ivoa.net/misc/ivoa_a.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="http://www.ivoa.net/misc/ivoa_wd.css" type="text/css" />
-<style type="text/css"></style>
+<!-- Add other styling information here (but this element, if present, mustn't be empty)
+  <style type="text/css"></style>
+-->
 <link href="./ivoadoc/XMLPrint.css" rel="stylesheet" type="text/css" />
 <link href="./ivoadoc/ivoa-extras.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div class="head">
-<div id="titlehead" style="position:relative;height:170px;width: 500px">
-  <div id="logo" style="position:absolute;width:300px;height:169px;left: 50px;top: 0px;">
-	<img src="http://www.ivoa.net/pub/images/IVOA_wb_300.jpg" alt="IVOA logo"/></div>
-  <div id="logo-title" style="position:absolute;width:200px;height:115px;left: 320px;top: 5px;">
-    
-    <p><b><i><span style="font-size: 14pt; color: #005A9C;"> I</span></i></b><i><span style="font-size: 14pt; color: #005A9C;">nternational</span></i></p>
-   <p><b><i><span style="font-size: 14pt; color: #005A9C;">    V</span></i></b><i><span style="font-size: 14pt; color: #005A9C;">irtual</span></i></p>
-   <p><b><i><span style="font-size: 14pt; color: #005A9C;">    O</span></i></b><i><span style="font-size: 14pt; color: #005A9C;">bservatory</span></i></p>
-   <p><b><i><span style="font-size: 14pt; color: #005A9C;">A</span></i></b><i><span style="font-size: 14pt; color: #005A9C;">lliance</span></i></p>
-</div>
+  <div id="titlehead" style="position:relative;height:170px;width: 500px">
+    <div id="logo" style="position:absolute;width:300px;height:169px;left: 50px;top: 0px;">
+    <img src="http://www.ivoa.net/pub/images/IVOA_wb_300.jpg" alt="IVOA logo"/></div>
+    <div id="logo-title"
+         style="position: absolute; width: 200px; height: 115px; left: 320px; top: 5px; font-size: 14pt; color: #005A9C; font-style: italic;">
+      <p style='position: absolute; left: 0px; top: 0px;'><span style='font-weight: bold;'>I</span> nternational</p>
+      <p style='position: absolute; left: 15pt; top: 25pt;'><span style='font-weight: bold;'>V</span> irtual</p>
+      <p style='position: absolute; left: 15pt; top: 50pt;'><span style='font-weight: bold;'>O</span> bservatory</p>
+      <p style='position: absolute; left: 0px; top: 75pt;'><span style='font-weight: bold;'>A</span> lliance</p>
+    </div>
   </div>
 <h1>Title<br/>
   Version <span class="docversion">0.1</span></h1>
@@ -110,7 +110,7 @@ Paul Harrison -->
 
 <div class="section-nonum">
   <h1 ><a name="References" id="References"></a>References</h1>
-  <?bibliography ivoadoc/refs.bib ?> 
+  <?bibliography ivoadoc/refs ?>  <!-- omit '.bib' -->
 </div>
 <hr/>
 <p style="text-align: right; font-size: x-small; color: #888;">

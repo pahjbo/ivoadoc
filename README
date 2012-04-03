@@ -1,7 +1,12 @@
-This directory contains files to help with the authorship of IVOA documents, which must be primarily be delivered as HTML.
+This directory contains files to help with the authorship of IVOA
+documents, which must be primarily be delivered as HTML.
 
-The scripts in this directory are generally expected to be installed as a subdirectory "ivoadoc" of the directory containing the file to be edited (This has been done to allow easy update an coping of this directory using the svn external mechanism).
- The only exception to this is the build.xml ant file which should be copied up to the directory containing the target document.
+The scripts in this directory are generally expected to be installed
+as a subdirectory "ivoadoc" of the directory containing the file to be
+edited (This has been done to allow easy update an coping of this
+directory using the svn external mechanism). The only exception to
+this is the build.xml ant file which should be copied up to the
+directory containing the target document.
 
 The scripts allow for features not normally associated with HTML authoring
 
@@ -14,18 +19,47 @@ The scripts allow for features not normally associated with HTML authoring
 Aims
 ----
 
-1. Author the document in XHTML - allows both text and popular WYSIWYG editors to be used.
-2. Allow the document created by one iteration of the processing to be used as input for the next stage - this allows tweaks to be made in a WYSIWIG editor to the final output format
-that will be then auto-numbered for instance.
+1. Author the document in XHTML - allows both text and popular WYSIWYG
+editors to be used.
+
+2. Allow the document created by one iteration of the processing to be
+used as input for the next stage - this allows tweaks to be made in a
+WYSIWIG editor to the final output format that will be then
+auto-numbered for instance.
 
 
 Authoring
 ---------
 
-1. initially can just do <cite>bibref</cite> 
-    <span class="xref">UWSSchema</span>
+0. Getting started: In the checked-out Subversion directory where you
+want the document to be (which doesn't have to be in the Volute
+repository), give the command:
+
+    % svn propedit svn:externals .
+
+and add a line like
+
+    ivoadoc https://volute.googlecode.com/svn/trunk/projects/ivoapub/ivoadoc
+
+When you commit this change, and next 'svn update', this creates a
+directory 'ivoadoc' which includes a checked-out version of the
+current state of the volute 'ivoadoc' tree.
+
+1. Cross-references: For citations, use <cite>bibref</cite>, where
+'bibref' is the BibTeX entry key in an associated .bib file.  For
+section cross-references, do <span class="xref">sectname</span>,
+where 'sectname' is the value of the anchor in a <div class='section'>
+(see below).
     
-    note that <a> anchors need both an id attribute and a name attribute - it is the id attribute that the xslt keys off.
+    note that <a> anchors need both an id attribute and a name
+    attribute - it is the id attribute that the xslt keys off.
+
+Bibliography: indicate the location of the bibliography (presumably
+within a section titled 'References') with a processing instruction:
+
+    <?bibliography my-bib-file?>
+
+Do not include the '.bib' extension in the BibTeX file name.
 
 
 2. Auto generated schema documentation
@@ -39,24 +73,41 @@ where the href is url to the source and defn is the name of the schema (complex 
 <div><?incxml href="../UWSJobInstance.xml" ?></div>
 
 
-3. Autogeneration of TOC
+4. Autogeneration of TOC
 
-<div><?toc?></div>
+You can generate a table of contents with:
 
-will cause the generation of a table of contents and a renumbering of sections which should have the form
+    <div><?toc?></div>
 
-<div class="section"><h2><a name="Introduction" id="Introduction" shape="rect"/><span class="secnum">1. </span>Introduction (informative)</h2>
+Sections are numbered automatically, if they are included in the form:
 
-.... </div>
+    <div class="section"><h2><a name="Introduction" id="introref" shape="rect"/><span class="secnum">1. </span>Introduction (informative)</h2>
+    ...
+    </div>
 
-if you want auto-generation of section number/anchor then you can start with 
+or
 
-<div class="section"><h2>blah</h2>
+    <div class='section'><h2><a id='introref'/>Introduction</h2>
+    ...
+    </div>
+
+In each case, "Section <span class='xref'>introref</span>" will
+include a link to this section.
+
+If you want auto-generation of both section number and anchor then you can
+start with just:
+
+    <div class="section"><h2>blah</h2>
+
+It doesn't matter what the <hn>...</hn> level is -- it will come out
+as the correct level for the nesting of the section div.
 
 Requirements
 ------------
 
-The xslt transformation scripts require an xslt 2.0 aware processor with evaluation extension - basically this means saxon B 9.1 http://saxon.sourceforge.net/
+The xslt transformation scripts require an xslt 2.0 aware processor
+with evaluation extension - basically this means saxon B 9.1
+http://saxon.sourceforge.net/
 
 The PDF creation uses Apache FOP
 

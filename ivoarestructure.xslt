@@ -104,28 +104,28 @@
 
 
   <x:template match="h:div[@class='section' or @class='section-nonum']">
-   <x:copy>
-    <x:apply-templates select="@*"/>
-    <x:variable name='id'>
-      <x:call-template name='make-section-id'/>
-    </x:variable>
-    <x:variable name="level">
-      <x:choose>
-        <x:when test="ancestor::h:div[@class='section']/ancestor::h:div[@class='section']">h4</x:when>
-        <x:when test="ancestor::h:div[@class='section']">h3</x:when>
-        <x:otherwise>h2</x:otherwise>
-      </x:choose>
-    </x:variable>
+    <x:copy>
+      <x:apply-templates select="@*"/>
+      <x:variable name='id'>
+        <x:call-template name='make-section-id'/>
+      </x:variable>
+      <x:variable name="level">
+        <x:choose>
+          <x:when test="ancestor::h:div[@class='section']/ancestor::h:div[@class='section']">h4</x:when>
+          <x:when test="ancestor::h:div[@class='section']">h3</x:when>
+          <x:otherwise>h2</x:otherwise>
+        </x:choose>
+      </x:variable>
       <x:message>section <x:value-of select="$level"/></x:message>
-    <x:element name='{$level}'>
-      <x:element name="a">
-      <x:copy-of select="./(h:h2|h:h3|h:h4)/h:a/@*[not(name()='name')]" />   
-      <x:attribute name='id' select="$id"/>  
+      <x:element name='{$level}'>
+        <x:element name="a">
+          <x:copy-of select="./(h:h1|h:h2|h:h3|h:h4)/h:a/@*[not(name()='name')]" />   
+          <x:attribute name='id' select="$id"/>  
+        </x:element>
+        <x:apply-templates select="." mode="make-section-name"/>
       </x:element>
-      <x:apply-templates select="." mode="make-section-name"/>
-    </x:element>
-    <x:apply-templates select="*[1]/following-sibling::node()"/><!-- perhaps a little dangerous perhaps better to have a template to ignore the first h1 etc after a section... -->
-   </x:copy> 
+      <x:apply-templates select="*[1]/following-sibling::node()"/><!-- perhaps a little dangerous perhaps better to have a template to ignore the first h1 etc after a section... -->
+    </x:copy> 
   </x:template>
  
  <!-- this is not perfect either - depends how many levels down...
@@ -235,53 +235,56 @@
   </x:template>
 
   <x:template match="h:div" mode="make-section-name">
-    <x:element name="span"><x:attribute name="class" select="'secnum'"></x:attribute>
-    <x:apply-templates select="." mode="make-section-number"/>
-     </x:element>
+    <x:element name="span">
+      <x:attribute name="class" select="'secnum'"></x:attribute>
+      <x:apply-templates select="." mode="make-section-number"/>
+    </x:element>
+    <x:choose>
+      <x:when test="ancestor-or-self::h:div[@class='section-nonum']"/>
+      <x:otherwise><x:text>. </x:text></x:otherwise>
+    </x:choose>
     <x:value-of  select="normalize-space(string-join(child::*[1]/text(), ''))"/>
-    
   </x:template>
   
   <x:template match="h:div" mode="make-section-number"><!-- would named template be better? -->
-      <x:choose>
+    <x:choose>
       <x:when test="ancestor-or-self::h:div[@class='section-nonum']"/>
       <x:when test="ancestor::h:div[@class='appendices']">
-        <x:text>Appendix </x:text>
-        <x:number count="h:div[@class='section']" level="multiple" format="A.1."/>
-        <x:text> </x:text>
+        <!--<x:text>Appendix </x:text> need 'Appendix/section' in both or neither-->
+        <x:number count="h:div[@class='section']" level="multiple" format="A.1"/>
+        <!-- no extra spacing or punctuation, since this is used in xrefs, too -->
       </x:when>
       <x:otherwise>
-        <x:number count="h:div[@class='section']" level="multiple" format="1.1."/>
-        <x:text> </x:text>
+        <x:number count="h:div[@class='section']" level="multiple" format="1.1"/>
       </x:otherwise>
     </x:choose>
   </x:template>
 
   <x:template match="processing-instruction('bibliography')">
     <x:copy/>
-    <x:choose><x:when test="contains(.,'replace')">
-   
-    <!-- think of better way to get the document id in -->
+    <!--<x:choose><x:when test="contains(.,'replace')">--><!-- XXX: what's this 'replace' for?-->
+    <!-- base-uri() is an XPath 2.0 function
+         (a regexp would be better here, to avoid depending on the base-uri ending in .html) -->
     <x:if test="$document-id ne 'document-id'">
-       <x:copy-of select="document(concat(substring-before($document-id, '.xml'),'.bbl'))"/>
+      <x:copy-of select="document(concat(substring-before(base-uri(), '.html'),'.bbl'))"/>
     </x:if>
-    </x:when></x:choose>
+    <!-- </x:when></x:choose>-->
   </x:template>
 
   <x:template match="h:cite">
-  <!-- need to do this as numbered along with bibstyle... -->
+    <!-- need to do this as numbered along with bibstyle... -->
     <x:copy>
-    <x:variable name="ref">
-    <x:choose>
-       <x:when test="h:a/@href">
-        <x:value-of select="substring-after(h:a/@href,'#')"/>
-       </x:when>
-       <x:otherwise>
-         <x:value-of select="."/>
-       </x:otherwise>
-    </x:choose>
-    </x:variable>
-    <x:text>[</x:text><x:element name="a" namespace="http://www.w3.org/1999/xhtml"><x:attribute name="href" select='concat("#",$ref)'/><x:value-of select='$ref'/></x:element><x:text>]</x:text>
+      <x:variable name="ref">
+        <x:choose>
+          <x:when test="h:a/@href">
+            <x:value-of select="substring-after(h:a/@href,'#')"/>
+          </x:when>
+          <x:otherwise>
+            <x:value-of select="."/>
+          </x:otherwise>
+        </x:choose>
+      </x:variable>
+      <x:text>[</x:text><x:element name="a" namespace="http://www.w3.org/1999/xhtml"><x:attribute name="href" select='concat("#",$ref)'/><x:value-of select='$ref'/></x:element><x:text>]</x:text>
     </x:copy>
   </x:template>
 
@@ -295,7 +298,7 @@
   <x:key name="xrefs" match="h:div[(h:h1|h:h2|h:h3|h:h4|h:h5|h:h6)/h:a]" use="*/h:a/@id"/><!-- can only reference sections at the moment -->
 
   <x:template match="h:span[@class='xref']">
-  <span class="xref"><x:variable name="id">
+    <span class="xref"><x:variable name="id">
       <x:choose>
         <x:when test="h:a/@href">
           <x:value-of select="substring-after(h:a/@href, '#')"/>
@@ -307,16 +310,16 @@
     </x:variable>
     <x:choose>
       <x:when test="key('xrefs',$id)">
-      <x:message>putting in xref <x:value-of select="$id"/></x:message>
+        <x:message>putting in xref <x:value-of select="$id"/></x:message>
       </x:when>
       <x:otherwise>
-      <x:message >error putting in xref <x:value-of select="$id"/> - destination does not exist </x:message>
+        <x:message >error putting in xref <x:value-of select="$id"/> - destination does not exist </x:message>
       </x:otherwise>
     </x:choose>
     <a href='#{$id}'>
       <x:apply-templates select="key('xrefs',$id)" mode="make-section-number"/>
     </a>
-  </span>
+    </span>
   </x:template>
 
   <x:template match="h:span[@class='rcsinfo']">
