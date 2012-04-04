@@ -16,6 +16,12 @@
   <x:param name="target"/>
 
   <x:param name="document-id">document-id</x:param>
+  <!-- The parameter docbase is the location where the final document
+       will be served from.  This will always have the following value
+       in final versions, but draft versions may appear for a while at
+       a different location, and this can be parameterised when this
+       stylesheet is invoked. -->
+  <x:param name='docbase'>http://www.ivoa.net/Documents/</x:param>
   
   <x:param name="reloadbib"/>
 
@@ -121,8 +127,8 @@
         <x:element name="a">
           <x:copy-of select="./(h:h1|h:h2|h:h3|h:h4)/h:a/@*[not(name()='name')]" />   
           <x:attribute name='id' select="$id"/>  
+          <x:apply-templates select="." mode="make-section-name"/>
         </x:element>
-        <x:apply-templates select="." mode="make-section-name"/>
       </x:element>
       <x:apply-templates select="*[1]/following-sibling::node()"/><!-- perhaps a little dangerous perhaps better to have a template to ignore the first h1 etc after a section... -->
     </x:copy> 
@@ -840,13 +846,16 @@
             </x:if>
     </x:function>
 
-    <!-- make a link to the current version on the ivoa doc server -->
+    <!-- Make a link to the current version on the ivoa doc server.
+         The format of the URI here is as mandated by the IVOA
+         Document Standards Standard Document (ahem). -->
     <x:template match="h:a[@class='currentlink']">
         <x:variable name="currenturl">
-            <x:text>http://www.ivoa.net/Documents/</x:text>
+            <x:value-of select="$docbase"/>
             <x:value-of select="$ivoname"/>
             <x:text>/</x:text>
             <x:value-of select="replace($docdate, '-', '')"/>
+            <x:text>/</x:text>
         </x:variable>
         <x:element name="a">
             <x:attribute name="class">currentlink</x:attribute>
