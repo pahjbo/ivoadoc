@@ -28,7 +28,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   <xsl:output method="xml"
               version="1.0"
               encoding="UTF-8"
-              indent="yes"/>
+              indent="no"/>
 
   <!--======================================================================
       Parameters
@@ -261,97 +261,102 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   
     
   <xsl:template match="html:div[@class='viewxml']">
-  
- 
   <!-- perhaps put a border? -->
-  <fo:block font-size="80%" text-align="left"  font-stretch="narrower">
+  <fo:block font-size="80%" text-align="left"  font-stretch="narrower" >
+     <fo:list-block>
     <xsl:call-template name="process-common-attributes-and-children"/>
+    </fo:list-block>
   </fo:block>  
   </xsl:template>
-  
- <xsl:template match="html:span[@class]" priority="1">
-    <fo:inline>
-    <xsl:choose>
-  <xsl:when test="@class='start-tag'">
-    <xsl:attribute name="font-weight">bold</xsl:attribute>
-    <xsl:attribute name="color">#009999</xsl:attribute>
-  </xsl:when>
-   <xsl:when test="@class='end-tag'">
-    <xsl:attribute name="font-weight">bold</xsl:attribute>
-    <xsl:attribute name="color">#009999</xsl:attribute>
-  </xsl:when>
-   <xsl:when test="@class='cdata'">
-    <xsl:attribute name="color">#CC0066</xsl:attribute>
-  </xsl:when>
-    <xsl:when test="@class='doctype'">
-    <xsl:attribute name="font-style">italic</xsl:attribute>
-    <xsl:attribute name="color">steelblue</xsl:attribute>
-  </xsl:when>
-  <xsl:when test="@class='pi'">
-    <xsl:attribute name="font-style">italic</xsl:attribute>
-    <xsl:attribute name="color">orchid</xsl:attribute>
-  </xsl:when>
-   <xsl:when test="@class='entity'">
-    <xsl:attribute name="font-weight">normal</xsl:attribute>
-    <xsl:attribute name="color">#FF4500</xsl:attribute>
-  </xsl:when>
-   <xsl:when test="@class='attribute-name'">
-    <xsl:attribute name="font-weight">bold</xsl:attribute>
-    <xsl:attribute name="color">#E88CA4</xsl:attribute>
-  </xsl:when>
-   <xsl:when test="@class='attribute-value'">
-    <xsl:attribute name="font-weight">normal</xsl:attribute>
-    <xsl:attribute name="color">blue</xsl:attribute>
-  </xsl:when>
-  <xsl:when test="@class='attribute-value'">
-    <xsl:attribute name="font-weight">normal</xsl:attribute>
-  </xsl:when>
-   <xsl:when test="@class='markup'">
-    <xsl:attribute name="font-weight">normal</xsl:attribute>
-    <xsl:attribute name="color">#009933</xsl:attribute>
-  </xsl:when>
-    
-    
-    
-    </xsl:choose>
-      
-       <xsl:call-template name="process-common-attributes-and-children"/>
-    </fo:inline>
+   <xsl:template match="html:span[@class]" priority="1">
+      <fo:inline>
+         <xsl:choose>
+            <xsl:when test="@class='start-tag'">
+               <xsl:attribute name="font-weight">bold</xsl:attribute>
+               <xsl:attribute name="color">#009999</xsl:attribute>
+            </xsl:when>
+            <xsl:when test="@class='end-tag'">
+               <xsl:attribute name="font-weight">bold</xsl:attribute>
+               <xsl:attribute name="color">#009999</xsl:attribute>
+            </xsl:when>
+            <xsl:when test="@class='cdata'">
+               <xsl:attribute name="color">#CC0066</xsl:attribute>
+            </xsl:when>
+            <xsl:when test="@class='doctype'">
+               <xsl:attribute name="font-style">italic</xsl:attribute>
+               <xsl:attribute name="color">steelblue</xsl:attribute>
+            </xsl:when>
+            <xsl:when test="@class='pi'">
+               <xsl:attribute name="font-style">italic</xsl:attribute>
+               <xsl:attribute name="color">orchid</xsl:attribute>
+            </xsl:when>
+            <xsl:when test="@class='entity'">
+               <xsl:attribute name="font-weight">normal</xsl:attribute>
+               <xsl:attribute name="color">#FF4500</xsl:attribute>
+            </xsl:when>
+            <xsl:when test="@class='attribute-name'">
+               <xsl:attribute name="font-weight">bold</xsl:attribute>
+               <xsl:attribute name="color">#E88CA4</xsl:attribute>
+            </xsl:when>
+            <xsl:when test="@class='attribute-value'">
+               <xsl:attribute name="font-weight">normal</xsl:attribute>
+               <xsl:attribute name="color">blue</xsl:attribute>
+            </xsl:when>
+            <xsl:when test="@class='attribute-value'">
+               <xsl:attribute name="font-weight">normal</xsl:attribute>
+            </xsl:when>
+            <xsl:when test="@class='markup'">
+               <xsl:attribute name="font-weight">normal</xsl:attribute>
+               <xsl:attribute name="color">#009933</xsl:attribute>
+            </xsl:when>
+         </xsl:choose>
+         <xsl:call-template name="process-common-attributes-and-children" />
+      </fo:inline>
   </xsl:template>
-  <xsl:attribute-set name="xmlinc">
-    
-    
-  </xsl:attribute-set>
-    <xsl:template match="html:div[@class='comment']">
-   <fo:block>
-   <xsl:attribute name="font-family">monospace</xsl:attribute>
-<!--  <xsl:attribute name="white-space">pre</xsl:attribute>    -->   
-    <xsl:attribute name="font-style">italic</xsl:attribute>
-    <xsl:attribute name="color">green</xsl:attribute>
-    <xsl:attribute name="background-color">#D4EA8D</xsl:attribute>
-    <xsl:apply-templates/>
-   </fo:block>
-  </xsl:template>
-    <xsl:template match="html:div[@class='element']">
-     <fo:list-block>
-    <fo:list-item><fo:list-item-label><fo:block/></fo:list-item-label><fo:list-item-body start-indent="body-start()">
-    <fo:block xsl:use-attribute-sets="xmlinc">
-    <xsl:apply-templates/>
-    </fo:block>
-    </fo:list-item-body>
-    </fo:list-item>
-    </fo:list-block>
-   </xsl:template> 
+   <xsl:attribute-set name="xmlinc">
+      <xsl:attribute name="provisional-distance-between-starts">1.0em</xsl:attribute>
+      <xsl:attribute name="font-family">Monaco, monospace</xsl:attribute>
+   </xsl:attribute-set>
+   <xsl:template
+      match="html:div[@class='element']|html:div[@class='text']|html:div[@class='pi']|html:div[@class='comment']"
+   >
+      <fo:list-item>
+         <fo:list-item-label>
+            <fo:block />
+         </fo:list-item-label>
+         <fo:list-item-body start-indent="body-start()">
+            <xsl:choose>
+            <xsl:when test="@class='comment'">
+             <fo:block>
+               <xsl:attribute name="font-family">Courier, monospace</xsl:attribute>
+               <!-- <xsl:attribute name="white-space">pre</xsl:attribute> -->
+              <xsl:attribute name="font-style">italic</xsl:attribute>
+              <xsl:attribute name="color">green</xsl:attribute>
+              <xsl:attribute name="background-color">#D4EA8D</xsl:attribute>
+               <xsl:apply-templates />
+            </fo:block>   
+            </xsl:when>         
+            <xsl:when test="@class='pi'">
+             <fo:block>
+               <xsl:attribute name="font-style">italic</xsl:attribute>
+               <xsl:attribute name="color">orchid</xsl:attribute>
+               <xsl:apply-templates />
+            </fo:block>   
+            </xsl:when>         
+            <xsl:otherwise>
+            <fo:block xsl:use-attribute-sets="xmlinc">
+               <xsl:apply-templates />
+            </fo:block>
+            </xsl:otherwise>
+            </xsl:choose>
+         </fo:list-item-body>
+      </fo:list-item>
+   </xsl:template>
    <xsl:template match="html:div[@class='indent']">
-    <fo:list-block>
-    <fo:list-item><fo:list-item-label><fo:block/></fo:list-item-label><fo:list-item-body start-indent="body-start()">
-    <fo:block xsl:use-attribute-sets="xmlinc">
-    <xsl:apply-templates/>
-    </fo:block>
-    </fo:list-item-body>
-    </fo:list-item>
-    </fo:list-block>
-    </xsl:template> 
+      <fo:list-block xsl:use-attribute-sets="xmlinc">
+         <xsl:apply-templates />
+      </fo:list-block>
+   </xsl:template> 
    <xsl:template match="html:div[@id='titlehead']">
                <fo:block-container role="html:div" id="titlehead" position="relative" height="4cm" width="500px">
                   <fo:block start-indent="0pt" end-indent="0pt">
@@ -364,7 +369,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                                 />
                         </fo:block>
                      </fo:block-container>
-                     <fo:block-container role="html:div" id="logo-title" position="absolute" left="7.5cm" top=".9cm">
+                     <fo:block-container role="html:div" id="logo-title" position="absolute" left="7.5cm" top="1.05cm">
                         <fo:block start-indent="0pt" end-indent="0pt" font-style="italic">
     
                            <fo:block space-before="1em" space-after="1em" role="html:p">

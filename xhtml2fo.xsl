@@ -22,7 +22,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   <xsl:output method="xml"
               version="1.0"
               encoding="UTF-8"
-              indent="yes"/>
+              indent="no"/>
 
   <!--======================================================================
       Parameters
@@ -1650,13 +1650,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     </fo:inline>
   </xsl:template>
 
-  <xsl:template match="html:a[@href]">
-    <fo:basic-link xsl:use-attribute-sets="a-link">
-      <xsl:call-template name="process-a-link"/>
-    </fo:basic-link>
-  </xsl:template>
   
-  <xsl:template match="html:div[@class='toc']//html:a[@href]">
+  <xsl:template match="html:div[@class='toc']//html:a[@href]" priority="5">
     <fo:basic-link xsl:use-attribute-sets="a-link">
       <xsl:call-template name="process-common-attributes"/>
          <xsl:attribute name="internal-destination">
@@ -1673,6 +1668,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </xsl:attribute>       
     </fo:page-number-citation>
     
+  </xsl:template>
+  <xsl:template match="html:a[@href]" >
+    <fo:basic-link xsl:use-attribute-sets="a-link">
+      <xsl:call-template name="process-a-link"/>
+    </fo:basic-link>
   </xsl:template>
 
   <xsl:template name="process-a-link">
