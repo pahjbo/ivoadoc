@@ -28,7 +28,7 @@
 
   <x:character-map name="cm1">
   <!-- stop &amp; being translated -->
-    <x:output-character character="&#38;" string="&amp;amp;amp;"/>
+    <x:output-character character="&#38;" string="&amp;amp;"/> 
     <x:output-character character="&#160;" string="&amp;nbsp;"/>
     <!-- see http://www.w3.org/2003/entities/iso9573-2003/iso9573-2003map.xsl for more entity maps... -->
   </x:character-map>
