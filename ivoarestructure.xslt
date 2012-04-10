@@ -6,16 +6,16 @@
               xmlns="http://www.w3.org/1999/xhtml"
               xmlns:vm="http://www.ivoa.net/xml/VOMetadata/v0.1" 
               xmlns:saxon="http://saxon.sf.net/" 
-              exclude-result-prefixes="saxon vm"
+              exclude-result-prefixes="saxon vm xs h"
              >
   <x:import href="vor2spec.xsl"/>
-  <x:param name="docversion">0.1</x:param>
-  <x:param name="pubstatus">WD</x:param>
-  <x:param name="ivoname">unnamed</x:param>
-  <x:param name="docdate">1970-01-01</x:param>
+  <x:param name="docversion">0.1</x:param> <!-- document version -->
+  <x:param name="pubstatus">WD</x:param> <!-- publication status WD, PR, REC, NOTE -->
+  <x:param name="ivoname">unnamed</x:param> <!-- the IVOA "short" name for the document -->
+  <x:param name="docdate">19700101</x:param><!-- publication date in YYYYMMDD format -->
+  <x:param name="filename">filename</x:param>
+  
   <x:param name="target"/>
-
-  <x:param name="document-id">document-id</x:param>
   <!-- The parameter docbase is the location where the final document
        will be served from.  This will always have the following value
        in final versions, but draft versions may appear for a while at
@@ -33,7 +33,7 @@
     <!-- see http://www.w3.org/2003/entities/iso9573-2003/iso9573-2003map.xsl for more entity maps... -->
   </x:character-map>
   <x:output method="xml" indent="no" use-character-maps="cm1"
-            encoding="ISO-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="ivoadoc/xmlcatalog/xhtml1-strict.dtd"
+            encoding="ISO-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
             exclude-result-prefixes="saxon"
             />
 
@@ -244,12 +244,14 @@
     <x:element name="span">
       <x:attribute name="class" select="'secnum'"></x:attribute>
       <x:apply-templates select="." mode="make-section-number"/>
-    </x:element>
+
     <x:choose>
       <x:when test="ancestor-or-self::h:div[@class='section-nonum']"/>
       <x:otherwise><x:text>. </x:text></x:otherwise>
     </x:choose>
-    <x:value-of  select="normalize-space(string-join(child::*[1]/text(), ''))"/>
+   </x:element>
+    <!-- just select the text that is the heading not the number-->
+    <x:value-of select="normalize-space(string-join(child::*[1]//text()[not(parent::h:span)], ''))"/>
   </x:template>
   
   <x:template match="h:div" mode="make-section-number"><!-- would named template be better? -->
@@ -268,13 +270,20 @@
 
   <x:template match="processing-instruction('bibliography')">
     <x:copy/>
-    <!--<x:choose><x:when test="contains(.,'replace')">--><!-- XXX: what's this 'replace' for?-->
-    <!-- base-uri() is an XPath 2.0 function
-         (a regexp would be better here, to avoid depending on the base-uri ending in .html) -->
-    <x:if test="$document-id ne 'document-id'">
-      <x:copy-of select="document(concat(substring-before(base-uri(), '.html'),'.bbl'))"/>
-    </x:if>
-    <!-- </x:when></x:choose>-->
+   <!--<x:choose>
+      <x:when test="contains(.,'replace')">  --> <!-- only do if the PI has a "replace" pseudo attribute -->
+         <!-- base-uri() is an XPath 2.0 function (a regexp would be better 
+            here, to avoid depending on the base-uri ending in .html) -->
+         <x:choose>
+            <x:when test="$filename eq 'filename'"> <!-- override with this variable if below is not suitable -->
+               <x:copy-of select="document(concat(substring-before(base-uri(), '.html'),'.bbl'))" />
+            </x:when>
+            <x:otherwise>
+               <x:copy-of select="document(concat($filename,'.bbl'))" />
+            </x:otherwise>
+         </x:choose>
+     <!--  </x:when>
+   </x:choose> -->
   </x:template>
 
   <x:template match="h:cite">
@@ -793,8 +802,8 @@
     </x:template>
 
     <x:template name="appendDocDate">
-            <x:text> </x:text>
-            <x:value-of select="$docdate"/>
+            <x:text> </x:text>                         
+            <x:value-of select="format-date(xs:date(concat(substring($docdate,1,4),'-',substring($docdate,5,2),'-',substring($docdate,7,2))), '[D] [MNn] [Y]', 'en', (), ())"/>
     </x:template>
 
     <x:template name="longDocClass">
@@ -840,10 +849,9 @@
             <x:value-of select="$pubstatus"/>
             <x:text>-</x:text>
             <x:value-of select="$docversion"/>
-            <x:if test="$pubstatus!='REC'">
-                <x:text>/</x:text>
-                <x:value-of select="replace($docdate, '-', '')"/>
-            </x:if>
+            <x:text>-</x:text>
+            <x:value-of select="$docdate"/>
+            
     </x:function>
 
     <!-- Make a link to the current version on the ivoa doc server.
@@ -853,9 +861,9 @@
         <x:variable name="currenturl">
             <x:value-of select="$docbase"/>
             <x:value-of select="$ivoname"/>
-            <x:text>/</x:text>
-            <x:value-of select="replace($docdate, '-', '')"/>
-            <x:text>/</x:text>
+            <x:text>-</x:text>
+            <x:value-of select="$docdate"/>
+            <x:text>-</x:text>
         </x:variable>
         <x:element name="a">
             <x:attribute name="class">currentlink</x:attribute>
