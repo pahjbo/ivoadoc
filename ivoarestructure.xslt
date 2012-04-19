@@ -900,6 +900,7 @@
                     public review. It is appropriate to reference this document
                     only as a recommended standard that is under review and
                     which may be changed before it is accepted as a full
+                    Recommendation.
                 </x:when>
                 <x:when test="$pubstatus='REC'">
                     This document has been reviewed by IVOA Members and other
