@@ -831,6 +831,8 @@
     <x:template match="h:title">
         <title>
             <x:call-template name="removeTrailingDate"/>
+            <x:text> </x:text>
+            <x:call-template name="longDocClass"/>
             <x:call-template name="appendDocDate"/>
         </title>
     </x:template>
@@ -865,7 +867,6 @@
             <x:value-of select="$ivoname"/>
             <x:text>-</x:text>
             <x:value-of select="replace($docdate, '-', '')"/>
-            <x:text>-</x:text>
         </x:variable>
         <x:element name="a">
             <x:attribute name="class">currentlink</x:attribute>
