@@ -877,6 +877,23 @@
         </x:element>
     </x:template>
 
+    <!-- Make a link to the LATEST version on the ivoa doc server.
+         This is a URL without a version, which will redirect, on the
+         doc server, to the versioned URL. -->
+    <x:template match="h:a[@class='latestlink']">
+        <x:variable name="currenturl">
+            <x:value-of select="$docbase"/>
+            <x:value-of select="$ivoname"/>
+        </x:variable>
+        <x:element name="a">
+            <x:attribute name="class">latestlink</x:attribute>
+            <x:attribute name="href">
+                <x:value-of select="$currenturl"/>
+            </x:attribute>
+            <x:value-of select="$currenturl"/>
+        </x:element>
+    </x:template>
+
     <x:template match="h:p[@id='statusdecl']">
         <p id="statusdecl"><em>
             <x:choose>
