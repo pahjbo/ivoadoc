@@ -33,7 +33,7 @@
     <!-- see http://www.w3.org/2003/entities/iso9573-2003/iso9573-2003map.xsl for more entity maps... -->
   </x:character-map>
   <x:output method="xml" indent="no" use-character-maps="cm1"
-            encoding="ISO-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
+            encoding="UTF-8" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
             exclude-result-prefixes="saxon"
             />
 
