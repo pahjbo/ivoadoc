@@ -119,6 +119,10 @@ in ~/.ant/lib/
 An example ant build file is included in this directory - it is intended that 
 
 
+ALTERNATIVE: There's Makefile.template in this directory.  Copy it into
+your working directory as Makefile and read the comments inside.
+
+
 File List
 ---------
 
