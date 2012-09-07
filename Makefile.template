@@ -22,6 +22,9 @@
 # * package: package the docs, css, all pngs and whatever is in
 #   PACKAGE_EXTRAS into an aptly-named zip that expands into a
 #   nicely-named subdirectory.
+# * biblio: remake the bibliography (this is never done automatically).
+#   Unless you try the experimental includebibliography PI, you have
+#   to manually insert the result into your HTML.
 #
 # Contact for this Makefile: Markus Demleitner (gavo@ari.uni-heidelberg.de)
 #
@@ -60,12 +63,15 @@ SAXON=java -cp $(RESOLVERJAR):$(SAXONJAR) \
 	-novw -r org.apache.xml.resolver.tools.CatalogResolver\
 	-x org.apache.xml.resolver.tools.ResolvingXMLReader\
 	-y org.apache.xml.resolver.tools.ResolvingXMLReader
+BIBTEX=bibtex
+SED=sed
 
 # TODO: make fop use our custom catalog
 FOP=FOP_HYPHENATION_PATH=$(FOPHYPH) fop -catalog
 
 HTMLSTYLE=ivoadoc/ivoarestructure.xslt
 FOSTYLE=ivoadoc/ivoa-fo.xsl
+CITEEXSTYLE=ivoadoc/extractcite.xslt
 
 # You should not need to edit anything below this line
 
@@ -87,8 +93,22 @@ endif
 %.pdf: %.fo
 	$(FOP) -pdf $@ -fo $<
 
+# this is for BibTex
+%.aux: %.html
+	$(SAXON) -o:$@ -xsl:$(CITEEXSTYLE) -s:$< 
+
+%.bbl: %.aux
+	$(BIBTEX) $<
+	$(SED) -f ivoadoc/detex.sed $@ > $@.tmp
+	mv $@.tmp $@
+	@echo "Now replace the current references in $(STDNAME).html with the content of $(STDNAME).bbl"
 
 default: $(STDNAME)-fmt.html
+
+cleanbbl:
+	rm $(STDNAME).bbl
+
+biblio: cleanbbl $(STDNAME).bbl
 
 package: $(STDNAME)-fmt.html $(STDNAME).pdf
 	rm -rf -- $(versionedName)

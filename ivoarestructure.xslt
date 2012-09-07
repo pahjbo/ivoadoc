@@ -284,6 +284,17 @@
    </x:choose> -->
   </x:template>
 
+	<!-- the following is a highly experimental feature to complement the
+		makefile-based ivoadoc; its biblio target creates a <standardname>.bbl
+		file, which is included here. 
+		
+		Main trouble: if the bbl file does not exist, Saxon fails.
+		I'm not sure if there's a way around that. -->
+  <x:template match="processing-instruction('includebibliography')">
+  	<x:copy-of select="document(concat('../', $ivoname, '.bbl'))"/>
+  	<x:fallback/>
+  </x:template>
+
   <x:template match="h:cite">
     <!-- need to do this as numbered along with bibstyle... -->
     <x:copy>
