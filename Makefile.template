@@ -101,7 +101,6 @@ endif
 	$(BIBTEX) $<
 	$(SED) -f ivoadoc/detex.sed $@ > $@.tmp
 	mv $@.tmp $@
-	@echo "Now replace the current references in $(STDNAME).html with the content of $(STDNAME).bbl"
 
 default: $(STDNAME)-fmt.html
 
