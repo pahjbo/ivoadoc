@@ -108,18 +108,14 @@
       <link rel="stylesheet" type="text/css">
         <x:attribute name="href">
           <x:choose>
-            <x:when test="$pubstatus='WD'">
-              http://www.ivoa.net/misc/ivoa_wd.css
-            </x:when>
-            <x:when test="$pubstatus='PR'">
-              http://www.ivoa.net/misc/ivoa_pr.css
-            </x:when>
-            <x:when test="$pubstatus='REC'">
-              http://www.ivoa.net/misc/ivoa_rec.css
-            </x:when>
-            <x:when test="$pubstatus='NOTE'">
-              http://www.ivoa.net/misc/ivoa_note.css
-            </x:when>
+            <x:when test="$pubstatus='WD'"
+            	>http://www.ivoa.net/misc/ivoa_wd.css</x:when>
+            <x:when test="$pubstatus='PR'"
+            	>http://www.ivoa.net/misc/ivoa_pr.css</x:when>
+            <x:when test="$pubstatus='REC'"
+            	>http://www.ivoa.net/misc/ivoa_rec.css</x:when>
+            <x:when test="$pubstatus='NOTE'"
+            	>http://www.ivoa.net/misc/ivoa_note.css</x:when>
           </x:choose>
         </x:attribute>
       </link>
