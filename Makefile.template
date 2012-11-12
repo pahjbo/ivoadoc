@@ -105,7 +105,7 @@ endif
 default: $(STDNAME)-fmt.html
 
 cleanbbl:
-	rm $(STDNAME).bbl
+	rm -f $(STDNAME).bbl
 
 biblio: cleanbbl $(STDNAME).bbl
 
@@ -125,3 +125,5 @@ clean:
 	rm -f $(PUBSTATUS)-$(STDNAME)-*.pdf
 	rm -f $(STDNAME).pdf
 	rm -r $(PUBSTATUS)-$(STDNAME)*.zip
+
+-include make.local
