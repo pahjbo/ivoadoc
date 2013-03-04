@@ -1247,7 +1247,7 @@ FUNCTION {begin.bib}
     'skip$
     { preamble$ write$ newline$ }
   if$
-  "<dl>" write$ newline$
+  "<dl xmlns='http://www.w3.org/1999/xhtml'>" write$ newline$
 }
 
 EXECUTE {begin.bib}
