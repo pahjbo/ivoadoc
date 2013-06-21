@@ -7,7 +7,7 @@
 # To make this work, you need xalan and fop; on Debian systems, the following
 # should do the trick:
 #
-# sudo aptitude install xalan fop w3c-dtd-xhtml
+# sudo aptitude install xalan fop w3c-dtd-xhtml libxml-commons-resolver1.1-java
 #
 # You most likely want the hyphenation patterns for fop (the PDF
 # formatter), too.  Presumably for licensing reasons, you have to 
@@ -55,7 +55,7 @@ CATALOG=ivoadoc/xmlcatalog/catalog.xml
 FOPHYPH=/usr/share/fop/fop-hyph.jar
 
 JARROOT=/usr/share/java
-RESOLVERJAR=$(JARROOT)/xml-commons-resolver-1.1.jar
+RESOLVERJAR=$(JARROOT)/xml-resolver.jar
 SAXONJAR=$(JARROOT)/saxonb.jar
 SAXON=java -cp $(RESOLVERJAR):$(SAXONJAR) \
 	-Dxml.catalog.files=$(CATALOG) -Dxml.catalog.verbosity=1\
