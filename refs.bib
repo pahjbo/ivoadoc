@@ -232,7 +232,7 @@ Version 1.03},
 
 @Misc{std:SIAP,
   editor =       {Paul Harrison},
-  author =       {Doug Tody and Ray Plant},
+  author =       {Doug Tody and Ray Plante},
   title =        {Simple Image Access Specification},
   howpublished = {{IVOA Recommendation}},
   year =         {2009},
@@ -246,9 +246,22 @@ Version 1.03},
   year =         {2008},
   url =          {http://www.ivoa.net/Documents/latest/ConeSearch.html}
 }
+
+@Misc{std:SSAP,
+  editor =       {Doug Tody},
+  author =       {Doug Tody and Markus Dolensky and Jonathan {McDowell}
+  	and Fran\cois Bonnarel and Tamas Budavari and Ivan Busko and
+  	Alberto Micol and Pedro Osuna and Jesus Salgado and Petr Skoda
+  	and Randy Thompson and Franceso Valdes},
+  title =        {Simple Spectral Access Protocol Version 1.1},
+  howpublished = {{IVOA Recommendation}},
+  year =         {2012},
+  url =          {http://www.ivoa.net/documents/SSA/20120210/REC-SSA-1.1-20120210.htm}
+
+}
 @Misc{std:ADQL,
-  editor =       {Pedro Osuna and I\~naki Ortiz},
-  author =       {I\~naki Ortiz and Jeff Lusted and Pat Dowler and Alexander Szalay and Yuji Shirasaki and Maria A. Nieto-Santisteba and Masatoshi Ohishi and William O'Mullane and Pedro Osuna and the VOQL-TEG and the VOQL Working Group},
+  editor =       {Pedro Osuna and I{\~n}aki Ortiz},
+  author =       {I{\~n}aki Ortiz and Jeff Lusted and Pat Dowler and Alexander Szalay and Yuji Shirasaki and Maria A. Nieto-Santisteba and Masatoshi Ohishi and William O'Mullane and Pedro Osuna and the VOQL-TEG and the VOQL Working Group},
   title =        {{IVOA} Astronomical Data Query Language},
   howpublished = {{IVOA Recommendation}},
   year =         {2008},
@@ -281,7 +294,13 @@ Version 1.03},
   url =          {http://www.ivoa.net/Documents/latest/STC.html}
 }
 
-
+@misc{std:OAIPMH,
+	editor =       {Carl Lagoze and Herbert Van de Sompel and Michael Nelson
+		and Simeon Warner},
+	title =        {The Open Archives Initiative Protocol for Metadata 
+		Harvesting, Version 2.0},
+	year =         {2002},
+	url =          {http://www.openarchives.org/OAI/openarchivesprotocol.html}}
 
 @webpage{sextractor,
   url = {http://astromatic.iap.fr/software/sextractor/},
@@ -348,6 +367,16 @@ Dave Winer
 	year=2011,
 	url={http://www.ivoa.net/Documents/ObsCore/20111028/REC-ObsCore-v1.0-20111028.pdf}
 }
+
+@Misc{std:SDM,
+	author={Jonathan McDowell and Jesus Salgado and Carlos Rodrigo Blanco and Pedro Osuna and Doug Tody and Enrique Solano and Joe Mazzarella and Raffaele D'Abrusco and Mireille Louys and Tamas Budavari and Markus Dolensky and Inga Kamp and Kelly McCusker and Pavlos Protopapas and Arnold Rots and Randy Thompson and Frank Valdes and Petr Skoda and Bruno Rino and Jim Cant and Omar Laurino},
+	editor={Jonathan {McDowell} and Doug Tody},
+	howpublished={{IVOA Recommendation}},
+	title={{IVOA} Spectrum Data Model, Version 1.1},
+	year=2011,
+	url={http://www.ivoa.net/documents/SpectrumDM/index.html}
+}
+
 
 @Misc{std:iso8601,
   author={{International Organization for Standardization)}},
@@ -438,7 +467,6 @@ Dave Winer
 	url=      {http://www.unicode.org/versions/Unicode6.1.0}
 }
 
-
 @webpage{saxon,
   url = {http://saxon.sourceforge.net/},
   key = {http://saxon.sourceforge.net/},
@@ -475,3 +503,24 @@ Dave Winer
 	title = {{W3C RDFa} validator}
 	}
 
+@webpage{soft:pgsphere,
+	url = {http://pgsphere.projects.pgfoundry.org/},
+  key = {http://pgsphere.projects.pgfoundry.org/},
+  title = {{pgSphere}}
+}
+
+
+@inproceedings{soft:q3c,
+   author = {{Koposov}, S. and {Bartunov}, O.},
+    title = "{Q3C, Quad Tree Cube -- The new Sky-indexing Concept for Huge Astronomical Catalogues and its Realization for Main Astronomical Queries (Cone Search and Xmatch) in Open Source Database PostgreSQL}",
+booktitle = {Astronomical Data Analysis Software and Systems XV},
+     year = 2006,
+   series = {Astronomical Society of the Pacific Conference Series},
+   volume = 351,
+   editor = {{Gabriel}, C. and {Arviset}, C. and {Ponz}, D. and {Enrique}, S.
+	},
+    month = jul,
+    pages = {735},
+   adsurl = {http://ads.ari.uni-heidelberg.de/abs/2006ASPC..351..735K},
+  adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
