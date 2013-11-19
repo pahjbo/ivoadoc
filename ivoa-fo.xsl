@@ -105,6 +105,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <xsl:attribute name="text-align">center</xsl:attribute>
   </xsl:attribute-set>
 
+
+  <!--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+       Inline-level
+  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-->
+
+  <xsl:attribute-set name="strong">
+    <xsl:attribute name="font-weight">bold</xsl:attribute>
+  </xsl:attribute-set>
+
+
   <!--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
        Block-level
   =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-->
@@ -257,6 +267,29 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
       </fo:list-item-body>
     </fo:list-item>
   </xsl:template>
+
+  <!-- ul { list-style: none; } -->
+  <xsl:template match="html:ul[@class='nonestylelist']/html:li">
+    <fo:list-item xsl:use-attribute-sets="ul-li">
+      <xsl:call-template name="process-common-attributes"/>
+      <fo:list-item-label>
+        <fo:block/>
+      </fo:list-item-label>
+      <fo:list-item-body start-indent="body-start()">
+        <fo:block>
+          <xsl:apply-templates/>
+        </fo:block>
+      </fo:list-item-body>
+    </fo:list-item>
+  </xsl:template>
+
+  <xsl:template match="html:strong">
+    <fo:inline xsl:use-attribute-sets="strong">
+      <xsl:call-template name="process-common-attributes-and-children"/>
+    </fo:inline>
+  </xsl:template>
+
+
   <!-- special raw xml markup -->
   
     
