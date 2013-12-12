@@ -452,7 +452,7 @@
       <h:div class="viewxml">
         <x:analyze-string regex="href=[&quot;]([^&quot;]+)[&quot;] +select=[&quot;]([^&quot;]+)[&quot;]"  select=".">
           <x:matching-substring>
-                <!-- crude ability to select an element & children - neets to be smartened up to more xpath like, but namespaces a problem -->
+                <!-- crude ability to select an element and children - needs to be smartened up to more xpath like, but namespaces are a problem -->
                    <x:message>Including only <x:value-of select="regex-group(2)"/> element xml from <x:value-of select="regex-group(1)"/> </x:message>
                    <x:apply-templates select="document(regex-group(1))//saxon:evaluate(regex-group(2))" mode="printxml"></x:apply-templates>
            </x:matching-substring>
