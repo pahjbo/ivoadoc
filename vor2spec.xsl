@@ -356,12 +356,6 @@
         </xsl:for-each>
     </xsl:template>
 
-    <xsl:template match="@type[.='xs:token' or .='xs:string']" 
-                  mode="type">
-       <xsl:text>string: </xsl:text>
-       <code><xsl:value-of select="."/></code>
-    </xsl:template>
-
     <xsl:template match="@type[.='xs:boolean']" priority="1" 
                   mode="type">
        <xsl:text>boolean (true/false): </xsl:text>
