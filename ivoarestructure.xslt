@@ -21,7 +21,7 @@
        in final versions, but draft versions may appear for a while at
        a different location, and this can be parameterised when this
        stylesheet is invoked. -->
-  <x:param name='docbase'>http://www.ivoa.net/Documents/</x:param>
+  <x:param name='docbase'>http://www.ivoa.net/documents/</x:param>
   
   <x:param name="reloadbib"/>
 
@@ -890,7 +890,7 @@
         <x:variable name="currenturl">
             <x:value-of select="$docbase"/>
             <x:value-of select="$ivoname"/>
-            <x:text>-</x:text>
+            <x:text>/</x:text>
             <x:value-of select="replace($docdate, '-', '')"/>
         </x:variable>
         <x:element name="a">
