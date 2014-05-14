@@ -114,6 +114,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <xsl:attribute name="font-weight">bold</xsl:attribute>
   </xsl:attribute-set>
 
+  <xsl:attribute-set name="issue">
+    <xsl:attribute name="background-color">#FFFF00</xsl:attribute><!-- yellow -->
+  </xsl:attribute-set>
+  
 
   <!--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
        Block-level
@@ -287,6 +291,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <fo:inline xsl:use-attribute-sets="strong">
       <xsl:call-template name="process-common-attributes-and-children"/>
     </fo:inline>
+  </xsl:template>
+  
+  <!-- editorial issue still to be fixed -->
+  <xsl:template match="html:span[@class='issue']" priority="2">
+     <fo:inline xsl:use-attribute-sets="issue">
+      <xsl:call-template name="process-common-attributes-and-children"/>
+    </fo:inline>  
   </xsl:template>
 
 
