@@ -32,11 +32,11 @@
     <x:output-character character="&#160;" string="&amp;nbsp;"/>
     <!-- see http://www.w3.org/2003/entities/iso9573-2003/iso9573-2003map.xsl for more entity maps... -->
   </x:character-map>
-  <x:output method="xml" indent="no" use-character-maps="cm1"
+  <x:output method="xhtml" indent="no" use-character-maps="cm1" 
             encoding="UTF-8" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
             exclude-result-prefixes="saxon"
             />
-
+ <x:preserve-space elements="*"/>
   <!--
   This script is designed to help with the production of IVOA standards - it is derived from a script by Norman Gray, but is different in behaviour in that the document produced by the script is 
   intended to be used as input in the next round of editing.
@@ -101,25 +101,23 @@
   </x:template>
 
 
-  <x:template match="h:head">
-    <head profile='http://www.w3.org/1999/xhtml/vocab'>
-      <x:apply-templates select="@*"/>
-      <x:apply-templates select="child::node()"/>
+  
+  <x:template match="h:link[@rel='stylesheet' and starts-with(@href,'http://www.ivoa.net/misc/ivoa_') and not (@href='http://www.ivoa.net/misc/ivoa_a.css')]">
       <link rel="stylesheet" type="text/css">
         <x:attribute name="href">
           <x:choose>
             <x:when test="$pubstatus='WD'"
-            	>http://www.ivoa.net/misc/ivoa_wd.css</x:when>
+               >http://www.ivoa.net/misc/ivoa_wd.css</x:when>
             <x:when test="$pubstatus='PR'"
-            	>http://www.ivoa.net/misc/ivoa_pr.css</x:when>
+               >http://www.ivoa.net/misc/ivoa_pr.css</x:when>
             <x:when test="$pubstatus='REC'"
-            	>http://www.ivoa.net/misc/ivoa_rec.css</x:when>
+               >http://www.ivoa.net/misc/ivoa_rec.css</x:when>
             <x:when test="$pubstatus='NOTE'"
-            	>http://www.ivoa.net/misc/ivoa_note.css</x:when>
+               >http://www.ivoa.net/misc/ivoa_note.css</x:when>
           </x:choose>
         </x:attribute>
       </link>
-    </head>
+     
   </x:template>
 
 
@@ -492,7 +490,9 @@
    <!-- default identity transformation -->
   <x:template match="node()|@*">
     <x:copy>
-      <x:apply-templates select="node()|@*"/>
+      <x:apply-templates select="@*"/>
+      <x:apply-templates />
+      
     </x:copy>
   </x:template>
  
@@ -819,7 +819,7 @@
     <x:template name="removeTrailingDate">
             <x:analyze-string
                 select="."
-                regex="{'( [0-9]{1,2} +(January|February|March|April|May|June|July|August|September|October|November|December) +[0-9]{4})+$'}">
+                regex="{'(\-.* [0-9]{1,2} +(January|February|March|April|May|June|July|August|September|October|November|December) +[0-9]{4})+$'}">
                 <x:non-matching-substring>
                     <x:value-of select="."/>
                 </x:non-matching-substring>
@@ -856,7 +856,7 @@
     <x:template match="h:title">
         <title>
             <x:call-template name="removeTrailingDate"/>
-            <x:text> </x:text>
+            <x:text> - </x:text>
             <x:call-template name="longDocClass"/>
             <x:call-template name="appendDocDate"/>
         </title>
