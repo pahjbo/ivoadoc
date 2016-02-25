@@ -1589,20 +1589,26 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <xsl:value-of select="@alt"/>
       </xsl:attribute>
     </xsl:if>
-    <xsl:if test="@width">
-      <xsl:choose>
-        <xsl:when test="contains(@width, '%')">
-          <xsl:attribute name="width">
-            <xsl:value-of select="@width"/>
+   <xsl:choose>
+      <xsl:when test="@width">
+         <xsl:choose>
+            <xsl:when test="contains(@width, '%')">
+               <xsl:attribute name="width">
+            <xsl:value-of select="@width" />
           </xsl:attribute>
-          <xsl:attribute name="content-width">scale-to-fit</xsl:attribute>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:attribute name="content-width">
-            <xsl:value-of select="@width"/>px</xsl:attribute>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:if>
+               <xsl:attribute name="content-width">scale-to-fit</xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+               <xsl:attribute name="content-width">
+            <xsl:value-of select="@width" />px</xsl:attribute>
+            </xsl:otherwise>
+         </xsl:choose>
+      </xsl:when>
+      <xsl:otherwise>
+         <xsl:attribute name="width" select="'100%'"/>
+         <xsl:attribute name="content-width">scale-to-fit</xsl:attribute>
+      </xsl:otherwise>
+   </xsl:choose>
     <xsl:if test="@height">
       <xsl:choose>
         <xsl:when test="contains(@height, '%')">
