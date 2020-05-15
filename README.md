@@ -7,7 +7,7 @@ documents, which must be primarily be authored as HTML.
 
 For a fuller discussion of how to use these facilities see
 
-http://volute.googlecode.com/svn/trunk/projects/ivoapub/ivoapub.html
+https://volute.g-vo.org/svn/trunk/projects/ivoapub/ivoapub.html
 
 The scripts in this directory are generally expected to be installed
 as a subdirectory "ivoadoc" of the directory containing the file to be
