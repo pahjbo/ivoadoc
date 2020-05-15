@@ -1,5 +1,9 @@
+**NB** this system is now deprecated in favour of the https://github.com/ivoa-std/ivoatex system
+
+# IVOAPUB
+
 This directory contains files to help with the authorship of IVOA
-documents, which must be primarily be delivered as HTML.
+documents, which must be primarily be authored as HTML.
 
 For a fuller discussion of how to use these facilities see
 
@@ -18,8 +22,8 @@ The scripts allow for features not normally associated with HTML authoring
 4. formatting of schema constructs according to uniform standards
 5. final output of IVOA mandated PDF file with associated pdf bookmarks.
 
-Aims
-----
+## Aims
+
 
 1. Author the document in XHTML - allows both text and popular WYSIWYG
 editors to be used.
@@ -30,8 +34,7 @@ WYSIWIG editor to the final output format that will be then
 auto-numbered for instance.
 
 
-Authoring
----------
+## Authoring
 
 0. Getting started: In the checked-out Subversion directory where you
 want the document to be (which doesn't have to be in the Volute
@@ -59,53 +62,52 @@ where 'sectname' is the value of the anchor in a <div class='section'>
 Bibliography: indicate the location of the bibliography (presumably
 within a section titled 'References') with a processing instruction:
 
-    <?bibliography my-bib-file?>
+    `<?bibliography my-bib-file?>`
     
 Do not include the '.bib' extension in the BibTeX file name.
 
 
 2. Auto generated schema documentation
 
-<div><?schemadef href="../UWSRegExt.xsd" defn="UWSInterface" ?></div>
+`<div><?schemadef href="../UWSRegExt.xsd" defn="UWSInterface" ?></div>`
 
 where the href is url to the source and defn is the name of the schema (complex or simple) type to document.
 
 3. Inclusion and formating of xml
 
-<div><?incxml href="../UWSJobInstance.xml" ?></div>
+`<div><?incxml href="../UWSJobInstance.xml" ?></div>`
 
 
 4. Autogeneration of TOC
 
 You can generate a table of contents with:
 
-<div><?toc?></div>
+`<div><?toc?></div>`
 
 Sections are numbered automatically, if they are included in the form:
 
-    <div class="section"><h2><a name="Introduction" id="introref" shape="rect"/><span class="secnum">1. </span>Introduction (informative)</h2>
+    `<div class="section"><h2><a name="Introduction" id="introref" shape="rect"/><span class="secnum">1. </span>Introduction (informative)</h2>
     ...
-    </div>
+    </div>`
 
 or
 
-    <div class='section'><h2><a id='introref'/>Introduction</h2>
+   ` <div class='section'><h2><a id='introref'/>Introduction</h2>
     ...
-    </div>
+    </div>`
 
-In each case, "Section <span class='xref'>introref</span>" will
+In each case, `Section <span class='xref'>introref</span>` will
 include a link to this section.
 
 If you want auto-generation of both section number and anchor then you can
 start with just:
 
-<div class="section"><h2>blah</h2>
+`<div class="section"><h2>blah</h2>`
 
-It doesn't matter what the <hn>...</hn> level is -- it will come out
+It doesn't matter what the `<hn>...</hn>` level is -- it will come out
 as the correct level for the nesting of the section div.
 
-Requirements
-------------
+## Requirements
 
 The xslt transformation scripts require an xslt 2.0 aware processor
 with evaluation extension - basically this means saxon B 9.1
@@ -123,8 +125,7 @@ ALTERNATIVE: There's Makefile.template in this directory.  Copy it into
 your working directory as Makefile and read the comments inside.
 
 
-File List
----------
+## File List
 
 README - this file
 XMLPrint.css - css for the xml pretty printing
@@ -143,8 +144,8 @@ xmlcatalog - directory containing various entity files so that they do not have 
 
 
 
-Acknowledgements
----------------
+## Acknowledgements
+
 
 The scripts and ideas for this are derived from originals by Norman Gray, and efforts have been made to preserve his conventions. The major 
 difference being that the formatting script may be used iteratively, rather than the final output being a 'one-shot' batch processed result of the input, that cannot again be used as input.
@@ -152,14 +153,5 @@ difference being that the formatting script may be used iteratively, rather than
 The parts for schema documentation are from Ray Plante's xsl transformations.
 
 
-Paul Harrison paul.harrison@manchester.ac.uk 2009
 
 
-TODO
-----
-
-How to invoke latex from inside
-<xsl:value-of select="Runtime:exec(Runtime:getRuntime(), 'latex')"
-xmlns:Runtime="java:java.lang.Runtime"/>
-
-to get equations http://www.fauskes.net/nb/htmleqII/ in html - or texvc from mediawiki....
