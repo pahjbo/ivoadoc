@@ -12,11 +12,13 @@ https://volute.g-vo.org/svn/trunk/projects/ivoapub/ivoapub.html
 ## Docker image
 
 This image contains the software necessary to run the deprecated ivoa pub 
-document preparation system for documents that are authored in HTML.
+document preparation system for documents that are authored in HTML. To create the image
 
     docker build -t ivoadoc .
+    
+_Note_ - There is a pre-built image in the docker hub with name pahjbo/ivoadoc
 
-then to use the with an existing directory (connect working directory to container volume) and
+To use the image with an existing directory (connect working directory to container volume) and
 run bash interactively
 
     docker run -v /Users/pharriso/Work/ivoa/docs/:/pub -it ivoadoc bash
