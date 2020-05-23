@@ -138,6 +138,7 @@ plainhtml.bst -
 refs.bib - standard set of references of IVOA documents
 structure.py - small script to add div sectioning to a plain html file
 template.html - template IVOA document illustrating various capabilities of the system.
+template_ant_build.xml - template ant build.xml for running the scripts.
 vor2spec.xsl - transform IVOA schema into standardized description.
 xhtml2fo.xsl - transform the document to XSL-FO
 xmlcatalog - directory containing various entity files so that they do not have to be downloaded from W3C site.
