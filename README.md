@@ -9,6 +9,37 @@ For a fuller discussion of how to use these facilities see
 
 https://volute.g-vo.org/svn/trunk/projects/ivoapub/ivoapub.html
 
+## Docker image
+
+This image contains the software necessary to run the deprecated ivoa pub 
+document preparation system for documents that are authored in HTML.
+
+    docker build -t ivoadoc .
+
+then to use the with an existing directory (connect working directory to container volume) and
+run bash interactively
+
+    docker run -v /Users/pharriso/Work/ivoa/docs/:/pub -it ivoadoc bash
+    
+or you can run the ant file directly in a single instruction that exits the container immediately
+
+```
+docker run -v `pwd`:/pub -t ivoadoc ant
+
+Buildfile: /pub/build.xml
+
+createPDF:
+     [xslt] Processing /pub/UWS.html to /pub/out.fo
+     [xslt] Loading stylesheet /home/ivoa/ivoapub-master/ivoa-fo.xsl
+     [echo] applying fop
+      [fop] /pub/out.fo -> /pub/UWS.pdf
+```
+
+## Installation
+
+_Note_ that now the docker image is the preferred method of installation,
+as the latest versions of several of the packages used will cause the system to fail.
+
 The scripts in this directory are generally expected to be installed
 as a subdirectory "ivoadoc" of the directory containing the file to be
 edited (This has been done to allow easy update an coping of this
