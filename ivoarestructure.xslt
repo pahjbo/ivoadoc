@@ -87,8 +87,10 @@
        the RDFa transformation. -->
 
 
+  <x:variable name="docuri" select="document-uri(/)"/>
   <!-- process root node -->
   <x:template match="/">
+    
     <x:choose>
       <x:when test="$target">
         <x:message terminate="yes">Unrecognised target <x:value-of select="$target"/>
@@ -448,17 +450,18 @@
   <x:template match="processing-instruction('incxml')">
       <x:copy/>
       <h:div class="viewxml">
+       
         <x:analyze-string regex="href=[&quot;]([^&quot;]+)[&quot;] +select=[&quot;]([^&quot;]+)[&quot;]"  select=".">
           <x:matching-substring>
                 <!-- crude ability to select an element and children - needs to be smartened up to more xpath like, but namespaces are a problem -->
                    <x:message>Including only <x:value-of select="regex-group(2)"/> element xml from <x:value-of select="regex-group(1)"/> </x:message>
-                   <x:apply-templates select="document(regex-group(1))//saxon:evaluate(regex-group(2))" mode="printxml"></x:apply-templates>
+                   <x:apply-templates select="document(resolve-uri(regex-group(1),$docuri))//saxon:evaluate(regex-group(2))" mode="printxml"></x:apply-templates>
            </x:matching-substring>
           <x:non-matching-substring>
         <x:analyze-string regex="href=[&quot;]([^&quot;]+)[&quot;]" select=".">
           <x:matching-substring>
           <x:message>Including xml from <x:value-of select="regex-group(1)"/></x:message>
-            <x:apply-templates select="document(regex-group(1))" mode="printxml"></x:apply-templates>
+            <x:apply-templates select="document(resolve-uri(regex-group(1),$docuri))" mode="printxml"></x:apply-templates>
           </x:matching-substring>
         </x:analyze-string>
           </x:non-matching-substring>
@@ -474,7 +477,7 @@
         <x:analyze-string regex="href=['&quot;]([^'&quot;]+)['&quot;] +defn=['&quot;]([^'&quot;]+)['&quot;]" select=".">
           <x:matching-substring>
           <x:message>Including schema from <x:value-of select="regex-group(1)"/> element <x:value-of select="regex-group(2)"/></x:message>
-             <x:apply-templates select="document(regex-group(1))/saxon:evaluate('/xs:schema/(xs:complexType|xs:simpleType)[@name=$p1]',regex-group(2))" mode="def">
+             <x:apply-templates select="document(resolve-uri(regex-group(1),$docuri))/saxon:evaluate('/xs:schema/(xs:complexType|xs:simpleType)[@name=$p1]',regex-group(2))" mode="def">
               <x:with-param name="thisprefix" select="document(regex-group(1))/xs:schema/xs:annotation/xs:appinfo/vm:targetPrefix" ></x:with-param>
             </x:apply-templates>
           </x:matching-substring>
